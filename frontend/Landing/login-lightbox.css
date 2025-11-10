@@ -1,0 +1,335 @@
+.login-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    z-index: 1000;
+}
+
+.login-lightbox {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 30px;
+    width: 350px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: dropDown 0.3s ease-out;
+    color: #fff;
+}
+
+@keyframes dropDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Position the account link container relatively for dropdown positioning */
+.account-container {
+    position: relative;
+    display: inline-block;
+}
+
+.login-lightbox:hover {
+    box-shadow: 0 0 35px rgba(255, 215, 0, 0.25);
+}
+
+.login-lightbox::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 255, 255, 0.05));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.login-lightbox h1 {
+    font-weight: 600;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.login-lightbox .subtitle {
+    font-size: 1rem;
+    color: #999;
+    margin-bottom: 25px;
+}
+
+.login-lightbox .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-lightbox label {
+    display: block;
+    margin-bottom: 5px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.login-lightbox input[type="text"],
+.login-lightbox input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: #1a1a1a;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.login-lightbox input[type="text"]::placeholder,
+.login-lightbox input[type="password"]::placeholder {
+    color: #666;
+}
+
+.logout-button {
+    display: none;
+    padding: 8px 16px;
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 15px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+    background: #333;
+    border-color: #666;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background-color: #ffd700;
+    color: #000;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.login-lightbox .input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #fff;
+}
+
+.login-lightbox .input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #3d3d3d;
+    background-color: #1c1c1c;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: 0.2s;
+}
+
+.login-lightbox .input-group input:focus {
+    border-color: #ffd700;
+}
+
+.login-lightbox .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+}
+
+.login-lightbox .btn-primary {
+    background: linear-gradient(135deg, #ffd700, #bfa45b);
+    color: #000;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-lightbox .btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.login-lightbox .pass-reset {
+    color: #ffd700;
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-align: right;
+    display: block;
+}
+
+.login-lightbox .pass-reset:hover {
+    text-decoration: underline;
+}
+
+.signup-prompt {
+    text-align: center;
+    margin-top: 20px;
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.signup-prompt .signup-link {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.signup-prompt .signup-link:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 70px);
+    height: 1px;
+    background-color: #3d3d3d;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.divider span {
+    background-color: #2a2a2a;
+    padding: 0 15px;
+    color: #bbb;
+    font-size: 0.9rem;
+}
+
+.forgot-link {
+    color: #ffd700;
+    text-decoration: none;
+    text-align: right;
+    display: block;
+    font-size: 0.9rem;
+}
+
+.divider {
+    text-align: center;
+    color: #666;
+    margin: 20px 0;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background-color: #333;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.google-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: transparent;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.google-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.signup-prompt {
+    text-align: center;
+    margin-top: 20px;
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.signup-prompt a {
+    color: #ffd700;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.signup-prompt a:hover {
+    text-decoration: underline;
+}
+
+.google-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #3d3d3d;
+    background-color: #1c1c1c;
+    color: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.2s;
+}
+
+.google-btn:hover {
+    border-color: #ffd700;
+    background-color: #252525;
+}
+
+.google-btn img {
+    width: 20px;
+    height: 20px;
+}

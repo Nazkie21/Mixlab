@@ -1,0 +1,38 @@
+/* Header avatar styles */
+.account-with-avatar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary-color, #bfa45b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--primary-color, #bfa45b);
+}
+
+.avatar-initial {
+    color: #000;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+/* Update existing header styles */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}

@@ -1,0 +1,36 @@
+:root {
+    /* Background Colors */
+    --bg-dark: #1b1b1b;        /* Main page background */
+    --bg-darker: #0b0b0b;      /* Darker sections or footer */
+    --card-bg: #2a2a2a;        /* Card / container background */
+    --card-border: rgba(255, 255, 255, 0.05);  /* Card border lines */
+
+    /* Gold / Primary Accent Colors */
+    --gold: #ffd700;            /* Buttons, primary accents */
+    --gold-hover: #ffe44c;      /* Button hover effect */
+    --gold-muted: #bfa45b;      /* Muted accents, borders */
+
+    /* Warm Brown / Secondary Accent */
+    --brown: #5e512c;           /* Secondary elements */
+    --brown-light: #B07B4B;     /* Highlights or hover states */
+
+    /* Purple Accent */
+    --purple: #7c3aed;          /* Links or special highlights */
+
+    /* Text Colors */
+    --text-light: #ffffff;      /* Main text */
+    --text-muted: #bbb;         /* Muted text */
+    --text-secondary: #aaa;     /* Secondary text */
+
+    /* Borders / Lines */
+    --line-dark: #3d3d3d;       /* Dark border lines */
+    --line-muted: #444;         /* Subtle line accents */
+
+    /* Shadows / Glow Effects */
+    --shadow-gold-light: rgba(255, 215, 0, 0.15);   /* Light gold shadow for hover */
+    --shadow-gold-medium: rgba(255, 215, 0, 0.25);  /* Medium gold shadow */
+
+    /* Layout */
+    --radius: 14px;             /* Border radius for cards/buttons */
+    --max-width: 1100px;        /* Maximum page width */
+}

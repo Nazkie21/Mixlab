@@ -1,0 +1,83 @@
+/* MUSIC 2 */
+.container2 {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ff5e5e;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+               url("Studio/studiomic.jpg") center/cover no-repeat;
+  transition: opacity 0.3s;
+}
+
+
+.first-section {
+  text-align: center;
+  padding: 80px 20px;
+  max-width: 900px;
+}
+
+.unauna h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.unauna p {
+  font-size: 1.2rem;
+  color: #e0e0e0;
+  margin-bottom: 40px;
+}
+
+.unauna a {
+  color: #bfa45b;
+  text-decoration: none;
+  font-weight: 1000;
+  line-height: 1.1;
+  transition: color 0.3s ease;
+}
+
+.unauna a:hover {
+  color: #ffffff;
+}
+
+/* Arrow animation */
+.arrow {
+  font-size: 3rem;
+  color: #ffffff;
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .unauna h1 {
+    font-size: 2.5rem;
+  }
+
+  .unauna p {
+    font-size: 1rem;
+  }
+
+  .arrow {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .unauna h1 {
+    font-size: 2rem;
+  }
+}
+

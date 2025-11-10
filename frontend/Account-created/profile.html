@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile - MixLab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-layout">
+            <!-- Left Sidebar - User Information -->
+            <div class="sidebar-left">
+                <div class="user-profile-card">
+                    <div class="avatar-large">
+                        <div class="avatar-circle">
+                            <span class="avatar-initial" id="avatarInitial"></span>
+                        </div>
+                    </div>
+                    <h1 id="displayName">Nazkie</h1>
+                    <div id="email" class="muted">nazkie123@gmail.com</div>
+                    <div class="profile-actions">
+                        <a id="backHome" class="btn" href="../Landing/landing_page.html">
+                            Back to Home
+                        </a>
+                        <button id="profileLogout" class="btn">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content - Courses and Stats -->
+            <div class="main-content">
+                <div class="content-card">
+                    <h2>Courses Enrolled</h2>
+                    <div id="coursesList">
+                        <div class="course-item">
+                            <div class="course-icon">IR</div>
+                            <div class="course-info">
+                                <div class="course-title">Intro to Recording</div>
+                                <div class="course-progress">Progress: 60%</div>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-icon">MB</div>
+                            <div class="course-info">
+                                <div class="course-title">Mixing Basics</div>
+                                <div class="course-progress">Progress: 30%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Statistics</h2>
+                    <div class="stats-grid">
+                        <div>
+                            <div class="stat-value" id="statSessions">0</div>
+                            <div class="muted">Sessions Booked</div>
+                        </div>
+                        <div>
+                            <div class="stat-value" id="statHours">0</div>
+                            <div class="muted">Hours Recorded</div>
+                        </div>
+                        <div>
+                            <div class="stat-value" id="statCourses">0</div>
+                            <div class="muted">Completed Courses</div>
+                        </div>
+                    </div>
+
+                    <h2>Games History</h2>
+                    <div id="gamesList">
+                        <div class="game-item">
+                            <div>Rhythm Champ</div>
+                            <div class="game-score">850 pts</div>
+                        </div>
+                        <div class="game-item">
+                            <div>Ear Training</div>
+                            <div class="game-score">720 pts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for authentication
+        const raw = localStorage.getItem('user');
+        let user = null;
+        try {
+            user = raw ? JSON.parse(raw) : null;
+            if (!user) {
+                window.location.href = '../Landing/landing_page.html';
+                return;
+            }
+        } catch(e) {
+            console.error('Error parsing user data:', e);
+            window.location.href = '../Landing/landing_page.html';
+            return;
+        }
+
+        // Update profile information
+        const displayName = document.getElementById('displayName');
+        const emailEl = document.getElementById('email');
+
+      function getName(u) {
+            if (!u) return null;
+            return u.username || u.name || u.fullname || u.email || 'Account';
+        }
+
+        if (displayName) {
+            const name = getName(user);
+            displayName.textContent = name;
+            
+            // Set avatar initial
+            const avatarInitial = document.getElementById('avatarInitial');
+            if (avatarInitial) {
+                avatarInitial.textContent = name[0].toUpperCase();
+            }
+
+            // Add animation class
+            displayName.style.opacity = '0';
+            displayName.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                displayName.style.transition = 'all 0.5s ease';
+                displayName.style.opacity = '1';
+                displayName.style.transform = 'translateY(0)';
+            }, 100);
+        }
+
+        if (emailEl) {
+            emailEl.textContent = user.email || '';
+        }
+
+        // Animate statistics loading
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const current = Math.floor(progress * (end - start) + start);
+                element.textContent = current;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Animate stats with random placeholder values
+        const stats = {
+            statSessions: 3,
+            statHours: 12,
+            statCourses: 2
+        };
+
+        Object.entries(stats).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                animateValue(element, 0, value, 1000);
+            }
+        });
+
+        // Handle logout
+        const logoutBtn = document.getElementById('profileLogout');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                `;
+                
+                const content = document.createElement('div');
+                content.style.cssText = `
+                    background: #1e1e1e;
+                    padding: 30px;
+                    border-radius: 15px;
+                    border: 1px solid rgba(191,164,91,0.2);
+                    text-align: center;
+                    animation: fadeIn 0.3s ease;
+                `;
+                
+                content.innerHTML = `
+                    <h3 style="margin: 0 0 20px 0;">Logout from MixLab?</h3>
+                    <button class="btn" style="margin-right: 10px;">Cancel</button>
+                    <button class="btn" style="background: #bfa45b; color: #000;">Logout</button>
+                `;
+                
+                modal.appendChild(content);
+                document.body.appendChild(modal);
+                
+                const [cancelBtn, confirmBtn] = content.querySelectorAll('button');
+                
+                cancelBtn.onclick = () => modal.remove();
+                confirmBtn.onclick = () => {
+                    try {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        sessionStorage.clear();
+                    } catch(e) {
+                        console.error('Error during logout:', e);
+                    }
+                    window.location.href = '../Landing/landing_page.html';
+                };
+                
+                modal.onclick = (e) => {
+                    if (e.target === modal) modal.remove();
+                };
+            });
+        }
+    });
+    </script>
+</body>
+</html>
