@@ -308,8 +308,16 @@
     text-decoration: underline;
 }
 
-.google-btn {
+.social-login-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
     width: 100%;
+}
+
+.google-btn,
+.facebook-btn {
+    flex: 1;
     padding: 12px;
     border-radius: 10px;
     border: 1px solid #3d3d3d;
@@ -320,16 +328,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     transition: 0.2s;
+    min-width: 0;
 }
 
-.google-btn:hover {
+.google-btn:hover,
+.facebook-btn:hover {
     border-color: #ffd700;
     background-color: #252525;
 }
 
-.google-btn img {
+.google-btn img,
+.facebook-btn img {
     width: 20px;
     height: 20px;
+    flex-shrink: 0;
+    transition: filter 0.2s;
+}
+
+.facebook-btn:hover img {
+    filter: brightness(1.2);
 }
