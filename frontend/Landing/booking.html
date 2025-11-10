@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking</title>
+    <link rel="stylesheet" href="booking.css">
+</head>
+<body>
+
+  <main style="max-width: 900px; margin: 28px auto;">
+    <section id="booking" class="booking-section">
+      <div class="card">
+        <h2 class="subheading">Request a Studio Booking</h2>
+        <form id="bookingForm" class="booking" onsubmit="return false;">
+          <label for="name">Full name</label>
+          <input id="name" placeholder="Your full name" required />
+
+          <label for="address">Address</label>
+          <input id="address" placeholder="Home / Billing address" />
+
+          <label for="date">Date</label>
+          <input id="date" type="date" required />
+
+          <label for="hours">Hours</label>
+          <select id="hours">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+
+          <label for="members">How many people / members</label>
+          <input id="members" type="number" min="1" value="1" />
+
+          <fieldset style="border:none;padding:0;margin:0">
+            <legend style="font-size:13px;color:var(--muted);margin-bottom:6px">Payment method</legend>
+            <label><input type="radio" name="payment" value="gcash" checked> GCash</label>
+            <label style="margin-left:12px"><input type="radio" name="payment" value="in_person"> In person</label>
+            <label style="margin-left:12px"><input type="radio" name="payment" value="credit_card"> Credit card</label>
+          </fieldset>
+
+          <footer>
+            <div style="color:var(--muted);font-size:13px">We will contact you to confirm availability.</div>
+            <button class="btn" id="submitBooking">Request Booking</button>
+          </footer>
+        </form>
+        <div id="bookingMsg" class="msg muted" style="margin-top:12px"></div>
+      </div>
+    </section>
+  </main>
+</main>
+
+
+</body>
+</html>
