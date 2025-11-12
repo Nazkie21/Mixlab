@@ -1,145 +1,123 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const otpForm = document.getElementById('otpForm');
-  const otpInput = document.getElementById('otp');
-  const resendBtn = document.getElementById('resendBtn');
-  const resendTimer = document.getElementById('resendTimer');
-  const emailDisplay = document.getElementById('emailDisplay');
-  const errorMessage = document.getElementById('errorMessage');
-  const successMessage = document.getElementById('successMessage');
+  // --- Your Original Helper Functions (they are perfect) ---
+  const otpForm = document.getElementById('otpForm');
+  const otpInput = document.getElementById('otp');
+  const resendBtn = document.getElementById('resendBtn');
+  const resendTimer = document.getElementById('resendTimer');
+  const emailDisplay = document.getElementById('emailDisplay');
+  const errorMessage = document.getElementById('errorMessage');
+  const successMessage = document.getElementById('successMessage');
 
-  // Get registration data from session storage
-  const registrationData = sessionStorage.getItem('registrationData');
-  if (!registrationData) {
-    window.location.href = '../Register/register.html';
-    return;
-  }
+  function startResendTimer() {
+    resendBtn.disabled = true;
+    let seconds = 60;
+    resendTimer.textContent = `Resend in ${seconds}s`;
+    resendTimer.style.display = 'block';
+    const interval = setInterval(() => {
+      seconds--;
+      resendTimer.textContent = `Resend in ${seconds}s`;
+      if (seconds <= 0) {
+        clearInterval(interval);
+        resendBtn.disabled = false;
+        resendTimer.style.display = 'none';
+      }
+    }, 1000);
+  }
+  function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = 'block';
+    successMessage.style.display = 'none';
+    setTimeout(() => {
+      errorMessage.style.display = 'none';
+    }, 5000);
+  }
+  function showSuccess(message) {
+    successMessage.textContent = message;
+    successMessage.style.display = 'block';
+    errorMessage.style.display = 'none';
+  }
+  // --- End of Helper Functions ---
 
-  const { email, username, password } = JSON.parse(registrationData);
-  emailDisplay.textContent = `Code sent to ${email}`;
 
-  // Handle OTP verification
-  otpForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const otp = otpInput.value.trim();
+  // --- 1. Get Data from Session Storage ---
+  const registrationDataString = sessionStorage.getItem('registrationData');
+  if (!registrationDataString) {
+    showError('Your session has expired. Please go back to the register page.');
+    otpForm.querySelector('button[type="submit"]').disabled = true;
+    return; // Stop if no data
+  }
+  
+  const { email, username, password } = JSON.parse(registrationDataString);
+  emailDisplay.textContent = `Code sent to ${email}`;
 
-    if (otp.length !== 6) {
-      showError('Please enter a valid 6-digit OTP');
-      return;
-    }
+  // --- 2. Handle the OTP Form Submission ---
+  otpForm.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Stop page refresh
 
-    try {
-      const response = await fetch('http://localhost:5000/api/auth/verify-registration-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          otp
-        })
-      });
+    const otp = otpInput.value.trim();
 
-      const result = await response.json();
+    if (otp.length !== 6) {
+      showError('Please enter a valid 6-digit OTP');
+      return;
+    }
 
-      if (response.ok) {
-        showSuccess('Email verified! Completing registration...');
-        
-        // Now complete the registration
-        const registerResponse = await fetch('http://localhost:5000/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            username,
-            email,
-            password
-          })
-        });
+    const requestBody = {
+      username,
+      email,
+      password,
+      otp
+    };
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/verify-registration-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+      });
 
-        const registerResult = await registerResponse.json();
+      const result = await response.json();
 
-        if (registerResponse.ok) {
-          // Save user data
-          localStorage.setItem('token', registerResult.token);
-          localStorage.setItem('user', JSON.stringify(registerResult.user));
-          
-          // Clear session data
-          sessionStorage.removeItem('registrationData');
-          
-          // Redirect to profile or account created page
-          setTimeout(() => {
-            window.location.href = '../Account-created/profile.html';
-          }, 1500);
-        } else {
-          showError(registerResult.message || 'Registration failed');
-        }
-      } else {
-        showError(result.message || 'Invalid OTP');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      showError('Network error. Please try again.');
-    }
-  });
+      if (response.ok) {
+        // SUCCESS!
+        showSuccess('Email verified! Completing registration...');
+        
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        sessionStorage.removeItem('registrationData');
+        
+        // This will now redirect you to the account created page
+        setTimeout(() => {
+          window.location.href = '../Account-created/account-created.html';
+        }, 1500);
+      } else {
+        // FAILURE (e.g., "Invalid OTP")
+        showError(result.message || 'Invalid OTP');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      showError('Network error. Please try again.');
+V }
+  });
 
-  // Handle resend OTP
-  resendBtn.addEventListener('click', async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch('http://localhost:5000/api/auth/resend-registration-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        showSuccess('OTP resent to your email');
-        startResendTimer();
-      } else {
-        showError(result.message || 'Failed to resend OTP');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      showError('Network error. Please try again.');
-    }
-  });
-
-  // Resend timer function
-  function startResendTimer() {
-    resendBtn.disabled = true;
-    let seconds = 60;
-    resendTimer.textContent = `Resend in ${seconds}s`;
-    resendTimer.style.display = 'block';
-
-    const interval = setInterval(() => {
-      seconds--;
-      resendTimer.textContent = `Resend in ${seconds}s`;
-
-      if (seconds <= 0) {
-        clearInterval(interval);
-        resendBtn.disabled = false;
-        resendTimer.style.display = 'none';
-      }
-    }, 1000);
-  }
-
-  // Auto-focus next input on numeric entry
-  otpInput.addEventListener('input', (e) => {
-    e.target.value = e.target.value.replace(/[^0-9]/g, '');
-  });
-
-  function showError(message) {
-    errorMessage.textContent = message;
-    errorMessage.style.display = 'block';
-    successMessage.style.display = 'none';
-    setTimeout(() => {
-      errorMessage.style.display = 'none';
-    }, 5000);
-  }
-
-  function showSuccess(message) {
-    successMessage.textContent = message;
-    successMessage.style.display = 'block';
-    errorMessage.style.display = 'none';
-  }
+  // --- 3. Handle Resend (Your code is fine) ---
+  resendBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/resend-registration-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const result = await response.json();
+      if (response.ok) {
+        showSuccess('OTP resent to your email');
+        startResendTimer();
+      } else {
+        showError(result.message || 'Failed to resend OTP');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      showError('Network error. Please try again.');
+    }
+  });
 });
