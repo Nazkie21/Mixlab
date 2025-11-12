@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { connectToDatabase } from '../config/db.js';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
+import { generateOTP, sendRegistrationOTPEmail, sendOTPEmail } from '../utils/emailService.js';
 
 // import User from '../models/User.js'
 
@@ -250,6 +251,124 @@ export const registerWithRole = async (req, res) => {
     );
 
     res.status(201).json({ message: "User created successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Send Registration OTP
+export const sendRegistrationOTP = async (req, res) => {
+  const { email, username, password } = req.body;
+
+  if (!email || !username || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  if (!validateEmail(email)) {
+    return res.status(400).json({ message: "Invalid email format" });
+  }
+
+  if (!validatePassword(password)) {
+    return res.status(400).json({
+      message: "Password must be at least 8 characters long and include at least 1 letter and 1 number"
+    });
+  }
+
+  try {
+    const db = await connectToDatabase();
+    
+    // Check if user already exists
+    const [rows] = await db.query('SELECT * FROM users WHERE email = ? OR username = ?', [email, username]);
+    if (rows.length > 0) {
+      return res.status(409).json({ message: "User already exists" });
+    }
+
+    // Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+    // Store OTP temporarily (you might want to use Redis for this in production)
+    // For now, we'll store it in a temporary OTP table
+    await db.query(
+      'INSERT INTO temp_otps (email, otp, expires_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE otp = ?, expires_at = ?',
+      [email, otp, otpExpiry, otp, otpExpiry]
+    );
+
+    // Send OTP via email
+    try {
+      await sendRegistrationOTPEmail(email, otp);
+    } catch (error) {
+      console.error('Error sending registration OTP:', error.message);
+      return res.status(500).json({ message: "Failed to send OTP. Please check email configuration." });
+    }
+
+    res.status(200).json({ message: "OTP sent to your email" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Verify Registration OTP
+export const verifyRegistrationOTP = async (req, res) => {
+  const { email, otp } = req.body;
+
+  if (!email || !otp) {
+    return res.status(400).json({ message: "Email and OTP are required" });
+  }
+
+  try {
+    const db = await connectToDatabase();
+
+    // Check if OTP is valid and not expired
+    const [rows] = await db.query(
+      'SELECT * FROM temp_otps WHERE email = ? AND otp = ? AND expires_at > NOW()',
+      [email, otp]
+    );
+
+    if (rows.length === 0) {
+      return res.status(401).json({ message: "Invalid or expired OTP" });
+    }
+
+    // OTP is valid, delete it from the table
+    await db.query('DELETE FROM temp_otps WHERE email = ?', [email]);
+
+    res.status(200).json({ message: "OTP verified successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Resend Registration OTP
+export const resendRegistrationOTP = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
+  try {
+    // Generate new OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+
+    const db = await connectToDatabase();
+    await db.query(
+      'INSERT INTO temp_otps (email, otp, expires_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE otp = ?, expires_at = ?',
+      [email, otp, otpExpiry, otp, otpExpiry]
+    );
+
+    // Send OTP via email
+    try {
+      await sendRegistrationOTPEmail(email, otp);
+    } catch (error) {
+      console.error('Error resending registration OTP:', error.message);
+      return res.status(500).json({ message: "Failed to resend OTP" });
+    }
+
+    res.status(200).json({ message: "OTP resent to your email" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

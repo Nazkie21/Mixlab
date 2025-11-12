@@ -20,10 +20,39 @@ import adminRoutes from './routes/adminRoutes.js';
 // IMPORTS - Middleware
 import { authenticateToken } from './middleware/authMiddleware.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js'; //error handling 
+import { connectToDatabase } from './config/db.js';
 
 dotenv.config();
 
 const app = express();
+
+// Initialize database tables on startup
+async function initializeTables() {
+  try {
+    const db = await connectToDatabase();
+    
+    // Create temp_otps table if it doesn't exist
+    const createTempOtpsTable = `
+      CREATE TABLE IF NOT EXISTS temp_otps (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        otp VARCHAR(6) NOT NULL,
+        expires_at DATETIME NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_email_otp (email, otp),
+        INDEX idx_expires_at (expires_at)
+      );
+    `;
+    
+    await db.query(createTempOtpsTable);
+    console.log('✓ temp_otps table initialized');
+  } catch (error) {
+    console.error('Error initializing tables:', error);
+  }
+}
+
+// Initialize tables before starting server
+await initializeTables();
 
 // GLOBAL MIDDLEWARES
 app.use(express.json());
@@ -41,6 +70,7 @@ app.use(
   cors({
     origin: function (origin, callback) {
       // allow non-browser requests (like curl, or same-origin requests from tools)
+      console.log('Request from origin:', origin);
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) !== -1) {
         return callback(null, true);

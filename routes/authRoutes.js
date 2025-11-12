@@ -6,8 +6,10 @@ import {
   forgotPassword, 
   verifyOTP, 
   resetPassword,
-  logout
-  
+  logout,
+  sendRegistrationOTP,
+  verifyRegistrationOTP,
+  resendRegistrationOTP
 } from '../controllers/authController.js';
 import { 
   validateRegister, 
@@ -26,6 +28,9 @@ router.post('/forgot-password', validateEmail, forgotPassword);
 router.post('/verify-otp', validateOTP, verifyOTP);
 router.post('/reset-password', validateResetPassword, resetPassword);
 router.post('/logout', logout);
+router.post('/send-registration-otp', sendRegistrationOTP);
+router.post('/verify-registration-otp', verifyRegistrationOTP);
+router.post('/resend-registration-otp', resendRegistrationOTP);
 
 
 

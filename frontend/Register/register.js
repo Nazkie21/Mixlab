@@ -1,34 +1,63 @@
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const username = document.getElementById('username').value;
-  const email = document.getElementById('email').value;
+  const username = document.getElementById('username').value.trim();
+  const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const confirmPassword = document.getElementById('confirm-password').value;
 
-  const data = { username, email, password, confirmPassword };
+  // Validate passwords match
+  if (password !== confirmPassword) {
+    alert('Passwords do not match');
+    return;
+  }
+
+  // Validate password strength
+  if (password.length < 8) {
+    alert('Password must be at least 8 characters long');
+    return;
+  }
 
   try {
-    const res = await fetch('http://localhost:3000/api/auth/register', {
+    // Send registration request to generate OTP
+    const res = await fetch('http://localhost:5000/api/auth/send-registration-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        username,
+        email,
+        password
+      })
     });
 
     const result = await res.json();
 
     if (res.ok) {
-      // Save token to localStorage
-      localStorage.setItem('token', result.token);
-      localStorage.setItem('user', JSON.stringify(result.user));
+      // Store registration data in session storage
+      sessionStorage.setItem('registrationData', JSON.stringify({
+        username,
+        email,
+        password
+      }));
       
-      // Redirect to account created page
-      window.location.href = '/frontend/Account-created/account-created.html';
+      // Redirect to OTP verification page
+      window.location.href = '../verify-otp/verify-otp.html';
     } else {
-      alert(result.message);
+      alert(result.message || 'Registration failed. Please try again.');
     }
   } catch (error) {
     console.error('Error:', error);
     alert('Network error. Please try again.');
   }
 });
+
+// Handle Google Sign In
+document.getElementById('googleSignInBtn')?.addEventListener('click', function() {
+  window.location.href = '/api/auth/google';
+});
+
+// Handle Facebook Sign In
+document.querySelector('.social-btn.facebook')?.addEventListener('click', function() {
+  window.location.href = '/api/auth/facebook';
+});
+
