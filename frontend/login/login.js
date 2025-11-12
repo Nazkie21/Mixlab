@@ -20,9 +20,21 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       // Save token to localStorage
       localStorage.setItem('token', result.token);
       localStorage.setItem('user', JSON.stringify(result.user));
-      
-      // Redirect to dashboard
-      window.location.href = '/FrontEnd/Landing/landing_page.html';
+
+      // If there is a pending booking saved (user started booking before login), go to booking page
+      try {
+        const pending = sessionStorage.getItem('pendingBooking');
+        if (pending) {
+          // Redirect to booking page where the pending data will be prefilled
+          window.location.href = 'http://localhost:3000/Landing/booking.html';
+          return;
+        }
+      } catch (err) {
+        // ignore
+      }
+
+      // Default redirect after login
+      window.location.href = 'http://localhost:3000/Landing/landing_page.html';
     } else {
       alert(result.message);
     }

@@ -1,16 +1,23 @@
+/* =========================================
+   GLOBAL THEME VARIABLES
+========================================= */
 :root {
-    --bg: #0f0f0f;
-    --card: #1f1f1f; /* Same as About section */
-     --accent: #D6A74A;;
-    --accent-hover: #ff9133;
-    --muted: #bfc8d2;
-    --border: rgba(255,255,255,0.06);
-    --glass: rgba(255, 255, 255, 0.02);
-    --radius: 14px;
-    --max-width: 1100px;
+  --bg: #0f0f0f;
+  --card: #1f1f1f;
+  --accent: #ffd700;
+  --accent-hover: #ffe44c;
+  --muted: #bfc8d2;
+  --border: rgba(255, 255, 255, 0.08);
+  --glass: rgba(255, 255, 255, 0.04);
+  --radius: 14px;
+  --max-width: 1100px;
+  --shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  --font: "Poppins", sans-serif;
 }
 
-  
+/* =========================================
+   BOOKING LANDING PAGE
+========================================= */
 .card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -30,6 +37,68 @@ option{
     color: white;
 }
 
+.booking .btn {
+  background-color: var(--accent);
+  color: #000;
+  text-decoration: none;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.booking .btn:hover {
+  background-color: var(--accent-hover);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+
+
+/* =========================================
+   FORM
+========================================= */
+.booking .booking {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.booking label {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.booking input,
+.booking select,
+.booking textarea {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #1c1c1c;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.booking input:focus,
+.booking select:focus,
+.booking textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}
+
+.booking option {
+  background-color: #0f0f0f;
+  color: white;
+}
+
+
 
 /* Booking */
 
@@ -45,106 +114,186 @@ label {
     color: var(--muted);
 }
 
-input,
-select,
-textarea {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    background: transparent;
-    color: inherit;
+
+/* =========================================
+   BOOKING PAGE SCOPED STYLES
+========================================= */
+.booking-page {
+  background-color: var(--bg);
+  color: #fff;
+  font-family: var(--font);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 80px 20px;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.06), transparent 60%),
+                    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.06), transparent 60%);
 }
 
-footer {
-    margin-top: 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--muted);
-    font-size: 13px;
+/* =========================================
+   CARD
+========================================= */
+.booking-page .card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 36px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 40px auto;
+  transition: all 0.3s ease;
 }
 
-/* Responsive */
-@media (max-width: 980px) {
-    .hero {
-        grid-template-columns: 1fr;
-    }
-    .studio-card .studio-image {
-        height: 180px;
-    }
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .gallery {
-        grid-template-columns: repeat(3, 1fr);
-    }
+.booking-page .card:hover {
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
 }
 
-@media (max-width: 640px) {
-    body {
-        padding: 18px;
-    }
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
-    .gallery {
-        grid-template-columns: repeat(2, 1fr);
-    }
+/* =========================================
+   HEADINGS
+========================================= */
+.booking-page .subheading {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: var(--accent);
+  margin-bottom: 25px;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
 }
 
-/* Subtle animations */
-.fade-in {
-    opacity: 0;
-    transform: translateY(8px);
-    animation: fadeIn 600ms forwards;
+/* =========================================
+   FORM
+========================================= */
+.booking-page .booking {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.booking-page label {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.booking-page input,
+.booking-page select,
+.booking-page textarea {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #1c1c1c;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.booking-page input:focus,
+.booking-page select:focus,
+.booking-page textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}
+
+.booking-page option {
+  background-color: #0f0f0f;
+  color: white;
+}
+
+/* Radio buttons */
+.booking-page fieldset {
+  border: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.booking-page fieldset label {
+  font-weight: 500;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+.booking-page .btn {
+  background-color: var(--accent);
+  color: #000;
+  text-decoration: none;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.booking-page .btn:hover {
+  background-color: var(--accent-hover);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+.booking-page footer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  font-size: 13px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+.booking-page .fade-in {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeIn 600ms forwards;
 }
 
 @keyframes fadeIn {
-    to {
-        opacity: 1;
-        transform: none;
-    }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-/* Audio player */
-.audio-player {
-    display: flex;
-    gap: 12px;
-    align-items: center;
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+@media (max-width: 640px) {
+  .booking-page {
+    padding: 40px 16px;
+  }
+
+  .booking-page .card {
+    padding: 28px 24px;
+  }
+
+  .booking-page .subheading {
+    font-size: 1.4rem;
+  }
+
+  .booking-page .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .booking-page footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
-
-
-
-.play-btn {
-    width: 46px;
-    height: 46px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.04);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-
-.btn{
- font-size: 10px;
-  background-color:  var(--accent);
-  text-decoration: none;
-  border: none;
-  color: hsl(0, 0%, 0%);
-  border-radius: 50px;
-  font-size: 1.15rem;
-}
-
-.btn:hover{
-      background-color: #bfa45b;
-}
-
-
-

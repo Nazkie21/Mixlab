@@ -16,6 +16,7 @@ import bookingRoutes from './routes/bookingRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import path from 'path';
 
 // IMPORTS - Middleware
 import { authenticateToken } from './middleware/authMiddleware.js';
@@ -34,7 +35,7 @@ const allowedOrigins = [
   'http://127.0.0.1:5500',
   'http://127.0.0.1:5501',
   'http://localhost:5500',
-  'http://localhost:5501'
+  'http://localhost:5501',
 ];
 
 app.use(
@@ -53,6 +54,15 @@ app.use(
 
 // Serve frontend files from "public" folder
 app.use(express.static('public'));
+
+// Serve Landing frontend (maps to http://localhost:3000/Landing)
+app.use('/Landing', express.static(path.join(process.cwd(), 'frontend', 'Landing')));
+
+// Serve login frontend (maps to http://localhost:3000/login)
+app.use('/login', express.static(path.join(process.cwd(), 'frontend', 'login')));
+
+// Serve Admin frontend directly for convenience (maps to http://localhost:3000/admin)
+app.use('/admin', express.static(path.join(process.cwd(), 'frontend', 'Admin')));
 
 // BASE ROUTES
 app.get('/', (req, res) => {
@@ -110,7 +120,7 @@ app.use(errorHandler);
 
 
 //  START SERVER
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
 console.log(`
 
