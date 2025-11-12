@@ -3,23 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Verify OTP</title>
+  <title>Verify OTP - MixLab Studio</title>
   <link rel="stylesheet" href="verify-otp.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
   <div class="wrapper">
-    <div class="code-verification-card">
-      <h1>Verify Your Code</h1>
+    <div class="otp-card">
+      <h1>Verify Your Email</h1>
+      <p class="subtitle">Enter the OTP sent to your email address</p>
 
-      <form id="otpForm" class="form" action="/FrontEnd/Reset_password/reset_password.html">
-        <div class="input-group">
-          <input type="text" id="code" name="code" placeholder="Enter your code" required />
+      <div class="email-display" id="emailDisplay"></div>
+
+      <form id="otpForm" class="form">
+        <div class="otp-input-group">
+          <label for="otp">One-Time Password</label>
+          <input 
+            type="text" 
+            id="otp" 
+            placeholder="Enter 6-digit OTP" 
+            maxlength="6"
+            inputmode="numeric"
+            required 
+          />
+          <small class="helper-text">Check your email for the 6-digit code</small>
         </div>
 
-        <button type="submit" class="btn-primary">Verify</button>
-        <button type="button" class="btn-back" onclick="window.location.href='/FrontEnd/Forgot_password/forgot_password.html'">Back</button>
+        <button type="submit" class="btn-primary">Verify OTP</button>
+
+        <div class="resend-section">
+          <p class="resend-text">Didn't receive the code?</p>
+          <button type="button" id="resendBtn" class="btn-resend">Resend OTP</button>
+          <div id="resendTimer" class="resend-timer" style="display: none;"></div>
+        </div>
+
+        <p class="back-text">
+          <a href="../Register/register.html">Back to Register</a>
+        </p>
       </form>
+
+      <div id="errorMessage" class="error-message" style="display: none;"></div>
+      <div id="successMessage" class="success-message" style="display: none;"></div>
     </div>
   </div>
+  <script src="verify-otp-registration.js"></script>
 </body>
 </html>

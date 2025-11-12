@@ -66,6 +66,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Handle Facebook Login
+    const facebookLoginBtn = document.getElementById('facebookLoginBtn');
+    if (facebookLoginBtn) {
+        facebookLoginBtn.addEventListener('click', function() {
+            window.location.href = '/api/auth/facebook';
+        });
+    }
+
     // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.account-container')) {
