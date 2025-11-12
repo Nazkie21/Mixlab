@@ -8,9 +8,9 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="Logo/MixLab_Logo_NoText.PNG">
 
-    <!-- Icon  -->
+  <!-- Icon  -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,11 +22,10 @@
   <link rel="stylesheet" href="hero.css">  
   <link rel="stylesheet" href="Services.css">
   <link rel="stylesheet" href="booking.css">
-  <link rel="stylesheet" href="avatar.css">
   <link rel="stylesheet" href="gallery.css">
   <link rel="stylesheet" href="contact.css"> <!--CONTACT, FOOTER AND MESSAGES -->
   <link rel="stylesheet" href="about.css">
-  <link rel="stylesheet" href="login-lightbox.css">
+  <link rel="stylesheet" href="testimonial.css">
   <style>
     /* Small header styles to match site theme and ensure good contrast */
     .site-header .account,
@@ -57,18 +56,7 @@
       background: rgba(191,164,91,0.12);
     }
 
-    .site-header .account.logged-in {
-      cursor: pointer;
-      border-color: #bfa45b;
-      background: rgba(191,164,91,0.1);
-    }
-
-    .site-header .account.logged-in:hover {
-      background: rgba(191,164,91,0.2);
-    }
-
-
-       /* Service & Studio image layouts */
+    /* Service & Studio image layouts */
   .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
   /* Old-style: image on top, info below, subtle background */
   .service-card { display: flex; flex-direction: column; gap: 0; align-items: stretch; background: transparent; padding: 0; border-radius: 10px; }
@@ -102,8 +90,6 @@
       <!-- Navigation -->
       <nav class="primary" role="navigation" aria-label="Primary">
   <!-- brand text removed; logo links home instead -->
-           <a href="#about">ABOUT</a>
-
         <ul class="services">
           <li>
             <a href="#services">SERVICES</a>
@@ -119,19 +105,14 @@
         </ul>
 
         <a href="#contact">SUPPORT</a>
+        <a href="#about">ABOUT</a>
       </nav>
 
-  <!-- Account Section -->
-  <div class="account-section">
-    <div class="account-container">
-      <a id="accountLink" href="#" class="account">Login</a>
-      
-      <!-- Login Dropdown -->
-      <div class="login-dropdown" id="loginDropdown">
-        <div class="login-lightbox">
-          <h1>Login</h1>
-          <p class="subtitle">Sign in to your MixLab Studio account</p>
+  <!-- Account -->
+  <a id="accountLink" href="../login/login.html" class="account">Account</a>
+  <a id="logoutLink" href="../login/login.html" class="logout-link" style="margin-left:12px; text-decoration:none;">Logout</a>
 
+<<<<<<< HEAD
           <form id="loginForm" class="form">
             <div class="input-group">
               <label for="username">Username</label>
@@ -177,6 +158,10 @@
 
   <!-- Hamburger button -->
   <button id="menu-toggle" class="hamburger" aria-label="Open Menu">☰</button>
+=======
+      <!-- Hamburger button -->
+      <button id="menu-toggle" class="hamburger" aria-label="Open Menu">☰</button>
+>>>>>>> 347fa79c04c9256779b198566e05039ac531a9e8
     </div>
   </header>
 
@@ -305,25 +290,40 @@
       <!-- Services Overview -->
       <div class="services-grid" id="services">
         <div class="service-card">
-          <h3>Recording</h3>
-          <p>
-            Multi-track recording for bands, vocalists, and podcasts — fast turnaround
-            and raw tape emulation available.
-          </p>
+          <div class="service-image">
+            <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=800&auto=format&fit=crop" alt="Recording session" />
+          </div>
+          <div class="service-info">
+            <h3>Recording</h3>
+            <p>
+              Multi-track recording for bands, vocalists, and podcasts — fast turnaround
+              and raw tape emulation available.
+            </p>
+          </div>
         </div>
 
         <div class="service-card">
-          <h3>Mixing</h3>
-          <p>
-            Professional mixing with reference checks on multiple systems and stems delivery.
-          </p>
+          <div class="service-image">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop" alt="Mixing console" />
+          </div>
+          <div class="service-info">
+            <h3>Mixing</h3>
+            <p>
+              Professional mixing with reference checks on multiple systems and stems delivery.
+            </p>
+          </div>
         </div>
 
         <div class="service-card">
-          <h3>Mastering</h3>
-          <p>
-            Mastering services to make your tracks ready for streaming and physical release.
-          </p>
+          <div class="service-image">
+            <img src="https://images.unsplash.com/photo-1708791783497-ad3ae07f9e69?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1169" alt="Mastering" />
+          </div>
+          <div class="service-info">
+            <h3>Mastering</h3>
+            <p>
+              Mastering services to make your tracks ready for streaming and physical release.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -332,34 +332,90 @@
 
       <div class="features">
         <div class="feature">
-          <h4>Live Room</h4>
-          <p>Spacious acoustic-treated live room with drum riser.</p>
+          <div class="feature-image">
+            <img src="https://images.unsplash.com/photo-1708791783497-ad3ae07f9e69?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1169" alt="Live Room" />
+          </div>
+          <div class="feature-info">
+            <h4>Live Room</h4>
+            <p>Spacious acoustic-treated live room with drum riser.</p>
+          </div>
         </div>
 
         <div class="feature">
-          <h4>Control Room</h4>
-          <p>Industry monitors, preamps, and 24-track I/O.</p>
+          <div class="feature-image">
+            <img src="https://images.unsplash.com/photo-1708791783497-ad3ae07f9e69?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1169" alt="Control Room" />
+          </div>
+          <div class="feature-info">
+            <h4>Control Room</h4>
+            <p>Industry monitors, preamps, and 24-track I/O.</p>
+          </div>
         </div>
 
         <div class="feature">
-          <h4>Producer-Ready</h4>
-          <p>On-site producer and session players available.</p>
+          <div class="feature-image">
+            <img src="https://images.unsplash.com/photo-1708791783497-ad3ae07f9e69?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1169" alt="Producer Ready" />
+          </div>
+          <div class="feature-info">
+            <h4>Producer-Ready</h4>
+            <p>On-site producer and session players available.</p>
+          </div>
         </div>
       </div>
 
 
       <!-- Trust Section -->
-             <!-- Call To Action -->
     
 
-      <div class="why-trust" style="margin-top:18px;">
-        <h4>Why Artists Trust Us</h4>
-        <p class="tag">
-          Flexible rates, friendly team, and an environment built for creativity.
-        </p>
+    
+
+
       </div>
 
     </section>
+
+
+     <section class="testimonial-section">
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h2>What Our Clients Say</h2>
+        <p>Don't just take our word for it — hear from our satisfied customers</p>
+      </div>
+
+      <!-- Testimonial Card -->
+      <div class="testimonial-card">
+        <div class="quote">“</div>
+        <div class="stars" id="stars"></div>
+        <p class="content" id="testimonial-content"></p>
+        <div class="author">
+          <img id="testimonial-image" alt="Client photo" />
+          <div>
+            <h4 id="testimonial-name"></h4>
+            <p id="testimonial-role"></p>
+          </div>
+        </div>
+
+        <button id="prevBtn" class="t-nav-btn left">❮</button>
+        <button id="nextBtn" class="t-nav-btn right">❯</button>
+      </div>
+
+      <!-- Dots -->
+      <div class="dots" id="dots"></div>
+    </div>
+  </section>
+
+
+     <section class="card gallery-section">
+      <h1 id="gallery">Gallery</h1>
+      <div class="gallery" aria-live="polite">
+        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=800&auto=format&fit=crop" alt="Studio 1"/>
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop" alt="Studio 2"/>
+        <img src="https://images.unsplash.com/photo-1708791783497-ad3ae07f9e69?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1169" alt="studio"/>
+        <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=800&auto=format&fit=crop" alt="Live Room"/>
+      </div>
+    </section>
+
+
 
   <main>
     <aside class="studio-card card fade-in">
@@ -386,15 +442,7 @@
       </div>
     </aside>
 
-    <section class="card gallery-section">
-      <h1 id="gallery">Gallery</h1>
-      <div class="gallery" aria-live="polite">
-        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=800&auto=format&fit=crop" alt="Studio 1"/>
-        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop" alt="Studio 2"/>
-        <img src="https://images.unsplash.com/photo-1708791783497-ad3ae07f9e69?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1169" alt="studio"/>
-        <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=800&auto=format&fit=crop" alt="Live Room"/>
-      </div>
-    </section>
+   
 <section id="contact" class="contact-section">
   <div class="contact-form-wrapper">
     <form id="contactForm" onsubmit="return false;">
@@ -412,14 +460,15 @@
     <div class="contact-row">
       <div class="contact-box">
         <h4><i class="icon"></i> Studio Address</h4>
-        <p>#123, Sample Street, Your City<br>Your Country – ZIPCODE</p>
+        <p>4th Floor Unit 401 RCJ Building Ortigas Extension Countryside Ave. Pasig City
+           Pasig, Philippines</p>
       </div>
 
       <div class="contact-box">
         <h4><i class="icon"></i> Contact Us</h4>
         <p>
-          <a href="mailto:hello@example.com">hello@example.com</a><br />
-          <a href="tel:+1234567890">+1 234 567 890</a>
+          <a href="mailto:mixlabmusicstudios@gmail.com">mixlabmusicstudios@gmail.com</a><br />
+          <a href="tel:+63">0966 546 9046</a>
         </p>
       </div>
 
@@ -431,10 +480,26 @@
   </div>
 </section>
 
+
 <footer>
-  <div>© <span id="year"></span> Harmonic House</div>
-  <div>IPSUM LOREM </div>
+  <div class="footer-copy">© <span id="year"></span> Mixlab Studio</div>
+  <div class="footer-tagline">Professional Music Studio in Pasig</div>
+  <div class="footer-social-label">Follow us on</div>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/mixlabmusicstudios.ph" target="_blank" rel="noopener" aria-label="Instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://web.facebook.com/mixlabmusicstudios" target="_blank" rel="noopener" aria-label="Facebook">
+      <i class="fab fa-facebook"></i>
+    </a>
+    <a href="https://tiktok.com/@mixlabmusicstudios" target="_blank" rel="noopener" aria-label="TikTok">
+      <i class="fab fa-tiktok"></i>
+    </a>
+  </div>
 </footer>
+
+<script src="testimonial.js"></script>
+
 
   <audio id="sampleAudio" src="https://cdn.simple-mock-audio.example/sample.mp3"></audio>
 
@@ -473,9 +538,9 @@
             logoutLink.style.display = 'inline-block';
           }
         } else {
-          // not logged in: ensure links point to # to prevent navigation
-          if (accountLink) accountLink.setAttribute('href', '#');
-          if (mobileAccount) mobileAccount.setAttribute('href', '#');
+          // not logged in: ensure links point to login and hide logout
+          if (accountLink) accountLink.setAttribute('href', '../login/login.html');
+          if (mobileAccount) mobileAccount.setAttribute('href', '../login/login.html');
           if (logoutLink) {
             logoutLink.style.display = 'none';
           }
@@ -485,28 +550,14 @@
         if (logoutLink) logoutLink.style.display = 'none';
       }
 
-      // Logout behaviour: clears storage and redirects to landing page
+      // Logout behaviour: clears storage and redirects to login (mirrors admin)
       if (logoutLink) {
         logoutLink.addEventListener('click', function (e) {
           e.preventDefault();
           if (confirm('Are you sure you want to logout?')) {
-            try { 
-              // Clear all auth-related data
-              localStorage.removeItem('token'); 
-              localStorage.removeItem('user'); 
-              sessionStorage.clear(); 
-              
-              // Reset UI elements
-              if (accountLink) {
-                accountLink.textContent = 'Login';
-                accountLink.setAttribute('href', '#');
-                accountLink.removeAttribute('title');
-              }
-              logoutLink.style.display = 'none';
-              
-              // Reload the current page to reset the state
-              window.location.reload();
-            } catch (err) { /* ignore */ }
+            try { localStorage.removeItem('token'); localStorage.removeItem('user'); sessionStorage.clear(); } catch (err) { /* ignore */ }
+            // redirect to login
+            window.location.href = '../login/login.html';
           }
         });
       }
@@ -527,7 +578,7 @@
   </script>
 
   <script src="booking.js"></script>
-  <script src="login-lightbox.js"></script>
+
 
 </body>
 </html>

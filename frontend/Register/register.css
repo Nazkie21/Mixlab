@@ -4,6 +4,7 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+
 /* BODY */
 body {
   background-color: #1b1b1b;
@@ -14,9 +15,10 @@ body {
   min-height: 100vh;
   background-image: radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.07), transparent 60%),
                     radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.07), transparent 60%);
-  padding: 80px 20px; }
+  padding: 80px 20px;
+}
 
-/*Centering the Registered form*/
+/* Centering the Registered form */
 .wrapper {
   display: flex;
   justify-content: center;
@@ -24,13 +26,13 @@ body {
   width: 100%;
 }
 
-
 /* Card style box with glow */
-.register-card, .pass-reset-card, .code-verification-card,.reset-password-card {
+.register-card, .pass-reset-card, .code-verification-card, .reset-password-card {
   background-color: #2a2a2a;
   border-radius: 16px;
   padding: 45px 40px;
-  width: 400px;
+  width: 800px;
+  max-width: 90vw;
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
@@ -41,8 +43,7 @@ body {
   box-shadow: 0 0 35px rgba(255, 215, 0, 0.25);
 }
 
-
-.register-card::before{
+.register-card::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -51,7 +52,7 @@ body {
   background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 255, 255, 0.05));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-          mask-composite: exclude;
+  mask-composite: exclude;
   pointer-events: none;
 }
 
@@ -69,18 +70,35 @@ body {
   margin-bottom: 30px;
 }
 
-/* Form layout */
+/* Form layout - Two Column Grid */
 .form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 30px;
 }
 
+/* Input row for side-by-side fields */
+.input-row {
+  display: flex;
+  gap: 12px;
+  grid-column: 1 / -1;
+}
+
+.input-row .input-group {
+  flex: 1;
+}
+
+/* Input group styling */
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
 
 .input-group label {
   display: block;
   font-weight: 600;
   margin-bottom: 6px;
+  font-size: 0.9rem;
 }
 
 .input-group input {
@@ -111,6 +129,8 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: 0.2s ease;
+  grid-column: 1 / -1;
+  margin-top: 10px;
 }
 
 .btn-primary:hover {
@@ -125,6 +145,7 @@ body {
   position: relative;
   color: #aaa;
   font-size: 0.9rem;
+  grid-column: 1 / -1;
 }
 
 .divider span {
@@ -150,6 +171,7 @@ body {
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  grid-column: 1 / -1;
 }
 
 .social-btn {
@@ -186,12 +208,13 @@ body {
   box-shadow: 0 0 10px rgba(66, 103, 178, 0.4);
 }
 
-/* Login  and Register Link */
+/* Login and Register Link */
 .login-text {
   text-align: center;
   font-size: 0.9rem;
   color: #bbb;
   margin-top: 10px;
+  grid-column: 1 / -1;
 }
 
 .login-text a {
@@ -204,5 +227,20 @@ body {
   text-decoration: underline;
 }
 
-
-
+/* Responsive design */
+@media (max-width: 768px) {
+  .register-card {
+    width: 100%;
+    padding: 35px 25px;
+  }
+  
+  .form {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  
+  .input-row {
+    flex-direction: column;
+    gap: 18px;
+  }
+}
