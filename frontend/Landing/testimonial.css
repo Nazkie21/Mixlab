@@ -1,8 +1,16 @@
-
+/* ===== Base Style ===== */
+body {
+  background-color: #1E1E1E;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #F5F5F5;
+}
 
 .container {
   max-width: 1000px;
   width: 100%;
+  margin: 0 auto;
   text-align: center;
   padding: 2rem;
 }
@@ -17,8 +25,10 @@
   color: #CCCCCC;
   font-size: 1.1rem;
   margin-bottom: 3rem;
+  line-height: 1.6;
 }
 
+/* ===== Testimonial Card ===== */
 .testimonial-card {
   background-color: #2C2C2C;
   padding: 3rem 2rem;
@@ -27,6 +37,8 @@
   box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
   overflow: hidden;
   transition: opacity 0.5s ease;
+  margin: 0 auto;
+  max-width: 700px;
 }
 
 .quote {
@@ -62,6 +74,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .author img {
@@ -84,6 +97,7 @@
   margin: 2px 0 0;
 }
 
+/* ===== Navigation Buttons ===== */
 .t-nav-btn {
   position: absolute;
   top: 50%;
@@ -113,6 +127,7 @@
   right: 15px;
 }
 
+/* ===== Dots ===== */
 .dots {
   margin-top: 20px;
   display: flex;
@@ -135,29 +150,93 @@
   border-radius: 10px;
 }
 
-@media (max-width: 600px) {
+/* =========================
+   ✅ Responsive Design
+   ========================= */
+
+/* Tablets (up to 1024px) */
+@media (max-width: 1024px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .testimonial-card {
+    padding: 2.5rem 1.5rem;
+    max-width: 600px;
+  }
+
+  .header h2 {
+    font-size: 2.4rem;
+  }
+
+  .content {
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile Landscape & Small Tablets (up to 768px) */
+@media (max-width: 768px) {
   .testimonial-card {
     padding: 2rem 1rem;
   }
 
   .quote {
-    font-size: 60px;
+    font-size: 80px;
     top: 5px;
-    left: 15px;
+    left: 20px;
+  }
+
+  .t-nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
   }
 
   .content {
     font-size: 1.1rem;
   }
 
-  .author img {
-    width: 50px;
-    height: 50px;
+  .author {
+    flex-direction: column;
   }
 
-  .nav-btn {
+  .author img {
+    margin: 0 0 0.5rem 0;
+  }
+}
+
+/* Mobile Portrait (up to 480px) */
+@media (max-width: 480px) {
+  .header h2 {
+    font-size: 2rem;
+  }
+
+  .header p {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .quote {
+    font-size: 60px;
+    left: 10px;
+  }
+
+  .content {
+    font-size: 1rem;
+  }
+
+  .author img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .t-nav-btn {
     width: 35px;
     height: 35px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .dot.active {
+    width: 30px;
   }
 }

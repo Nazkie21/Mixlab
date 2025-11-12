@@ -8,34 +8,35 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="wrapper">
+    <div class="wrapper">
     <div class="register-card">
       <h1>Register</h1>
       <p class="subtitle">Create your MixLab Studio account</p>
 
-      <form id="registerForm" class="form" action="/FrontEnd/Account-created/account-created.html">
+      <form id="registerForm" class="form">
         <div class="input-group">
           <label for="username">Username</label>
           <input type="text" id="username" placeholder="Enter your username" required />
         </div>
 
-      <div class="input-row">
-        <div class="input-group">
-          <label for="first">First Name</label>
-          <input id="first" type="text" placeholder="First Name" required />
-        </div>
-        <div class="input-group">
-          <label for="last">Last Name</label>
-          <input id="last" type="text"  placeholder="Last Name" required />
-        </div>
-      </div>
-                <div class="input-group">
-          <label for="email">Email</label>
-          <input type="text" id="username" placeholder="Enter your username" required />
+        <div class="input-row">
+          <div class="input-group">
+            <label for="first">First Name</label>
+            <input id="first" type="text" placeholder="First Name" required />
+          </div>
+          <div class="input-group">
+            <label for="last">Last Name</label>
+            <input id="last" type="text" placeholder="Last Name" required />
+          </div>
         </div>
 
         <div class="input-group">
-          <label for="contact-number">Contact Number</label>
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Enter your email" required />
+        </div>
+
+        <div class="input-group">
+          <label for="contact_number">Contact Number</label>
           <input type="tel" id="contact_number" placeholder="Enter your Number" required />
         </div>
 
@@ -45,8 +46,8 @@
         </div>
 
         <div class="input-group">
-          <label for="birthday">Birthday:</label>
-          <input type="date" id="birthday" name="birthday">
+          <label for="birthday">Birthday</label>
+          <input type="date" id="birthday" name="birthday" />
         </div>
 
         <div class="input-group">
@@ -62,8 +63,6 @@
         <button type="submit" class="btn-primary">Register</button>
 
         <div class="divider"><span>or sign up with</span></div>
-
-
 
         <div class="social-buttons">
           <button type="button" class="social-btn google" id="googleSignInBtn">
@@ -82,6 +81,7 @@
       </form>
     </div>
   </div>
+
   <script src="register.js"></script>
 </body>
 </html>

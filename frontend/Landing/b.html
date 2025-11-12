@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --card: #1f1f1f;
+      --accent: #ffd700;
+      --accent-hover: #ffe44c;
+      --muted: #bfc8d2;
+      --border: rgba(255, 255, 255, 0.08);
+      --radius: 14px;
+      --shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      --font: "Poppins", sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: #fff;
+      font-family: var(--font);
+      min-height: 100vh;
+      padding: 80px 20px;
+      background-image: radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.06), transparent 60%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.06), transparent 60%);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+    }
+
+    .subheading {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.7rem;
+      color: var(--accent);
+      margin-bottom: 25px;
+      text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+    }
+
+    .booking-summary {
+      background: rgba(255, 215, 0, 0.05);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .booking-summary h3 {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-top: 8px;
+    }
+
+    .summary-label {
+      color: var(--muted);
+    }
+
+    .summary-value {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .payment-methods {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .payment-option {
+      background: rgba(255, 255, 255, 0.03);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .payment-option:hover {
+      border-color: var(--accent);
+      background: rgba(255, 215, 0, 0.05);
+    }
+
+    .payment-option.active {
+      border-color: var(--accent);
+      background: rgba(255, 215, 0, 0.08);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+    }
+
+    .payment-option input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+    }
+
+    .payment-info {
+      flex: 1;
+    }
+
+    .payment-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .payment-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .payment-details {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .payment-details.active {
+      display: block;
+      animation: fadeIn 400ms ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: #1c1c1c;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 12px;
+    }
+
+    .qr-code {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .qr-placeholder {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 16px;
+      background: #fff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #000;
+    }
+
+    .gcash-number {
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-align: center;
+      margin: 16px 0;
+    }
+
+    .btn {
+      background-color: var(--accent);
+      color: #000;
+      text-decoration: none;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 14px 32px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .btn:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(255, 215, 0, 0.1);
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 24px;
+      transition: 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--accent-hover);
+    }
+
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .success-message.active {
+      display: block;
+      animation: fadeIn 600ms ease;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+
+    .checkin-qr {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      margin: 30px auto;
+      max-width: 400px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .checkin-qr h3 {
+      color: #000;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    #qrcode img {
+      border-radius: 8px;
+    }
+
+    .booking-code {
+      background: var(--card);
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 20px;
+      color: var(--accent);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .booking-details {
+      text-align: left;
+      background: rgba(255, 215, 0, 0.05);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .detail-value {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .instructions {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--accent);
+      padding: 16px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    .instructions p {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .instructions p:last-child {
+      margin-bottom: 0;
+    }
+
+    .button-group {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 40px 16px;
+      }
+
+      .card {
+        padding: 28px 24px;
+      }
+
+      .subheading {
+        font-size: 1.4rem;
+      }
+
+      .input-row {
+        grid-template-columns: 1fr;
+      }
+
+      .checkin-qr {
+        padding: 20px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .back-link,
+      .button-group,
+      .instructions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="booking.html" class="back-link">← Back to Booking</a>
+
+    <div class="card">
+      <h2 class="subheading">Complete Your Payment</h2>
+
+      <div id="paymentForm">
+        <!-- Booking Summary -->
+        <div class="booking-summary">
+          <h3>Booking Summary</h3>
+          <div class="summary-row">
+            <span class="summary-label">Date & Time:</span>
+            <span class="summary-value" id="summaryDateTime">-</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Duration:</span>
+            <span class="summary-value" id="summaryHours">-</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Members:</span>
+            <span class="summary-value" id="summaryMembers">-</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Rate:</span>
+            <span class="summary-value">₱500 / hour</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Total Amount:</span>
+            <span class="summary-value" id="totalAmount">₱0</span>
+          </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <h3 style="margin-bottom: 16px; color: var(--muted);">Select Payment Method</h3>
+        <div class="payment-methods">
+          <!-- GCash -->
+          <label class="payment-option active" data-method="gcash">
+            <input type="radio" name="payment" value="gcash" checked>
+            <div class="payment-info">
+              <div class="payment-name">GCash</div>
+              <div class="payment-desc">Pay via GCash QR or number</div>
+            </div>
+          </label>
+          <div class="payment-details active" id="gcashDetails">
+            <div class="qr-code">
+              <div class="qr-placeholder">GCash QR Code Here</div>
+              <div class="gcash-number">0917-123-4567</div>
+              <p style="color: var(--muted); font-size: 0.9rem;">Scan QR or send to this number</p>
+            </div>
+            <div class="form-group">
+              <label>Reference Number</label>
+              <input type="text" id="gcashRef" placeholder="Enter GCash reference number" required>
+            </div>
+          </div>
+
+          <!-- Credit Card -->
+          <label class="payment-option" data-method="credit">
+            <input type="radio" name="payment" value="credit_card">
+            <div class="payment-info">
+              <div class="payment-name">Credit/Debit Card</div>
+              <div class="payment-desc">Visa, Mastercard, or other cards</div>
+            </div>
+          </label>
+          <div class="payment-details" id="creditDetails">
+            <div class="form-group">
+              <label>Card Number</label>
+              <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+            </div>
+            <div class="form-group">
+              <label>Cardholder Name</label>
+              <input type="text" id="cardName" placeholder="Name on card">
+            </div>
+            <div class="input-row">
+              <div class="form-group">
+                <label>Expiry Date</label>
+                <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+              </div>
+              <div class="form-group">
+                <label>CVV</label>
+                <input type="text" id="cardCvv" placeholder="123" maxlength="3">
+              </div>
+            </div>
+          </div>
+
+          <!-- On-Site Payment -->
+          <label class="payment-option" data-method="onsite">
+            <input type="radio" name="payment" value="on_site">
+            <div class="payment-info">
+              <div class="payment-name">On-Site Payment</div>
+              <div class="payment-desc">Pay cash when you arrive at the studio</div>
+            </div>
+          </label>
+          <div class="payment-details" id="onsiteDetails">
+            <p style="color: var(--muted); line-height: 1.6;">
+              You will pay the full amount when you arrive at the studio. 
+              Please bring exact change if possible. Your booking will be confirmed upon payment at check-in.
+            </p>
+          </div>
+        </div>
+
+        <button class="btn" id="completePayment">Complete Payment</button>
+      </div>
+
+      <!-- Success Message -->
+      <div class="success-message" id="successMessage">
+        <div class="success-icon">✓</div>
+        <h2 style="color: var(--accent); margin-bottom: 16px;">Payment Successfully Completed!</h2>
+        
+        <!-- Booking Details -->
+        <div class="booking-details">
+          <h3 style="color: var(--accent); margin-bottom: 16px; text-align: center;">Booking Details</h3>
+          <div class="detail-row">
+            <span class="detail-label">Booking ID:</span>
+            <span class="detail-value" id="finalBookingId">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Name:</span>
+            <span class="detail-value" id="finalName">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Date & Time:</span>
+            <span class="detail-value" id="finalDateTime">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Duration:</span>
+            <span class="detail-value" id="finalHours">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Members:</span>
+            <span class="detail-value" id="finalMembers">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Payment Method:</span>
+            <span class="detail-value" id="finalPayment">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Total Paid:</span>
+            <span class="detail-value" id="finalTotal">-</span>
+          </div>
+        </div>
+
+        <!-- Check-in QR Code -->
+        <div class="checkin-qr">
+          <h3>Your Check-In QR Code</h3>
+          <p style="color: #666; font-size: 0.9rem; margin-bottom: 16px;">
+            Show this QR code when you arrive at the studio
+          </p>
+          <div id="qrcode"></div>
+          <div class="booking-code" id="bookingCodeDisplay">-</div>
+        </div>
+
+        <div class="instructions">
+          <p><strong>Important Instructions:</strong></p>
+          <p>✓ Save or screenshot this page for your records</p>
+          <p>✓ Show the QR code at the studio entrance for check-in</p>
+          <p>✓ Arrive 10 minutes before your scheduled time</p>
+          <p>✓ A confirmation email has been sent to your address</p>
+        </div>
+
+        <div class="button-group">
+          <button class="btn" onclick="window.print()">Print Booking Details</button>
+          <a href="booking.html" class="btn btn-secondary">Make Another Booking</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get booking data from sessionStorage
+    const bookingData = JSON.parse(sessionStorage.getItem('bookingData') || '{}');
+    
+    // Generate unique booking ID
+    const bookingId = 'BK' + Date.now().toString().slice(-8);
+    
+    // Populate summary
+    if (bookingData.date && bookingData.time) {
+      document.getElementById('summaryDateTime').textContent = 
+        `${bookingData.date} at ${bookingData.time}`;
+    }
+    if (bookingData.hours) {
+      document.getElementById('summaryHours').textContent = 
+        `${bookingData.hours} hour${bookingData.hours > 1 ? 's' : ''}`;
+      const total = bookingData.hours * 500;
+      document.getElementById('totalAmount').textContent = `₱${total.toLocaleString()}`;
+    }
+    if (bookingData.members) {
+      document.getElementById('summaryMembers').textContent = bookingData.members;
+    }
+
+    // Payment method switching
+    const paymentOptions = document.querySelectorAll('.payment-option');
+    const paymentDetails = document.querySelectorAll('.payment-details');
+
+    paymentOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        // Remove active class from all
+        paymentOptions.forEach(o => o.classList.remove('active'));
+        paymentDetails.forEach(d => d.classList.remove('active'));
+        
+        // Add active to clicked
+        option.classList.add('active');
+        const radio = option.querySelector('input[type="radio"]');
+        radio.checked = true;
+        
+        // Show relevant details
+        const method = option.dataset.method;
+        document.getElementById(`${method}Details`).classList.add('active');
+      });
+    });
+
+    // Card number formatting
+    const cardNumberInput = document.getElementById('cardNumber');
+    if (cardNumberInput) {
+      cardNumberInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\s/g, '');
+        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+        e.target.value = formattedValue;
+      });
+    }
+
+    // Expiry date formatting
+    const expiryInput = document.getElementById('cardExpiry');
+    if (expiryInput) {
+      expiryInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+          value = value.slice(0, 2) + '/' + value.slice(2, 4);
+        }
+        e.target.value = value;
+      });
+    }
+
+    // Complete payment
+    document.getElementById('completePayment').addEventListener('click', () => {
+      const selectedMethod = document.querySelector('input[name="payment"]:checked').value;
+      
+      // Simple validation
+      if (selectedMethod === 'gcash') {
+        const ref = document.getElementById('gcashRef').value;
+        if (!ref) {
+          alert('Please enter your GCash reference number');
+          return;
+        }
+      } else if (selectedMethod === 'credit_card') {
+        const cardNum = document.getElementById('cardNumber').value;
+        const cardName = document.getElementById('cardName').value;
+        const expiry = document.getElementById('cardExpiry').value;
+        const cvv = document.getElementById('cardCvv').value;
+        
+        if (!cardNum || !cardName || !expiry || !cvv) {
+          alert('Please fill in all card details');
+          return;
+        }
+      }
+
+      // Populate final booking details
+      document.getElementById('finalBookingId').textContent = bookingId;
+      document.getElementById('finalName').textContent = bookingData.name;
+      document.getElementById('finalDateTime').textContent = 
+        `${bookingData.date} at ${bookingData.time}`;
+      document.getElementById('finalHours').textContent = 
+        `${bookingData.hours} hour${bookingData.hours > 1 ? 's' : ''}`;
+      document.getElementById('finalMembers').textContent = bookingData.members;
+      
+      // Format payment method name
+      const paymentMethodNames = {
+        'gcash': 'GCash',
+        'credit_card': 'Credit/Debit Card',
+        'on_site': 'On-Site Payment'
+      };
+      document.getElementById('finalPayment').textContent = 
+        paymentMethodNames[selectedMethod] || selectedMethod;
+      
+      const total = bookingData.hours * 500;
+      document.getElementById('finalTotal').textContent = `₱${total.toLocaleString()}`;
+      document.getElementById('bookingCodeDisplay').textContent = bookingId;
+
+      // Generate QR Code with booking information
+      const qrData = JSON.stringify({
+        bookingId: bookingId,
+        name: bookingData.name,
+        date: bookingData.date,
+        time: bookingData.time,
+        hours: bookingData.hours,
+        members: bookingData.members,
+        total: total
+      });
+
+      // Clear previous QR code if any
+      document.getElementById('qrcode').innerHTML = '';
+      
+      // Generate new QR code
+      new QRCode(document.getElementById('qrcode'), {
+        text: qrData,
+        width: 200,
+        height: 200,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      // Show success
+      document.getElementById('paymentForm').style.display = 'none';
+      document.getElementById('successMessage').classList.add('active');
+      
+      // Clear booking data
+      sessionStorage.removeItem('bookingData');
+    });
+  </script>
+</body>
+</html>

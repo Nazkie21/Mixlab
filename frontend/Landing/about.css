@@ -137,3 +137,16 @@
     font-size: 1.8rem;
   }
 }
+@media (max-width: 500px) {
+  #slider {
+    height: 200px;
+  }
+
+  .app-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .app-content p {
+    font-size: 0.95rem;
+  }
+}
