@@ -113,16 +113,47 @@
   color: #ffe44c;
 }
 
-/* Footer */
+
 footer {
   background: #0b0b0b;
-  padding: 20px;
+  padding: 24px 12px;
   color: #bbb;
   font-size: 14px;
   text-align: center;
   border-top: 1px solid #3d3d3d;
 }
 
-footer div {
-  margin: 4px 0;
+.footer-copy {
+  font-size: 13px;
+  color: #888;
 }
+
+.footer-tagline {
+  margin: 4px 0 8px 0;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.footer-social-label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #aaa;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  font-size: 22px;
+}
+
+.footer-social a {
+  color: inherit;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.footer-social a:hover {
+  color: var(--accent);
+  transform: scale(1.1);
+}
+

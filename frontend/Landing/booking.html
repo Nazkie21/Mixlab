@@ -1,56 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking</title>
-    <link rel="stylesheet" href="booking.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking</title>
+  <link rel="stylesheet" href="booking.css">
 </head>
-<body>
+<body class="booking-page">
 
   <main style="max-width: 900px; margin: 28px auto;">
     <section id="booking" class="booking-section">
       <div class="card">
         <h2 class="subheading">Request a Studio Booking</h2>
+
         <form id="bookingForm" class="booking" onsubmit="return false;">
-          <label for="name">Full name</label>
-          <input id="name" placeholder="Your full name" required />
+          <!-- Full Name -->
+          <label for="name">Full Name</label>
+          <input id="name" name="name" placeholder="Your full name" required />
 
+          <!-- Address -->
           <label for="address">Address</label>
-          <input id="address" placeholder="Home / Billing address" />
+          <input id="address" name="address" placeholder="Home / Billing address" />
 
+          <!-- Date -->
           <label for="date">Date</label>
-          <input id="date" type="date" required />
+          <input id="date" name="date" type="date" required />
 
+          <!-- Time -->
+          <label for="time">Time</label>
+          <input id="time" name="time" type="time" required />
+
+          <!-- Hours -->
           <label for="hours">Hours</label>
-          <select id="hours">
+          <select id="hours" name="hours">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
           </select>
 
-          <label for="members">How many people / members</label>
-          <input id="members" type="number" min="1" value="1" />
+          <!-- Members -->
+          <label for="members">How Many People / Members</label>
+          <input id="members" name="members" type="number" min="1" value="1" />
 
-          <fieldset style="border:none;padding:0;margin:0">
-            <legend style="font-size:13px;color:var(--muted);margin-bottom:6px">Payment method</legend>
-            <label><input type="radio" name="payment" value="gcash" checked> GCash</label>
-            <label style="margin-left:12px"><input type="radio" name="payment" value="in_person"> In person</label>
-            <label style="margin-left:12px"><input type="radio" name="payment" value="credit_card"> Credit card</label>
+          <!-- Payment Method -->
+          <fieldset>
+            <legend>Payment Method</legend>
+            <label>
+              <input type="radio" name="payment" value="gcash" checked> GCash
+            </label>
+            <label>
+              <input type="radio" name="payment" value="in_person"> In Person
+            </label>
+            <label>
+              <input type="radio" name="payment" value="credit_card"> Credit Card
+            </label>
           </fieldset>
 
+          <!-- Footer / Submit -->
           <footer>
-            <div style="color:var(--muted);font-size:13px">We will contact you to confirm availability.</div>
+            <div>We will contact you to confirm availability.</div>
             <button class="btn" id="submitBooking">Request Booking</button>
           </footer>
         </form>
+
+        <!-- Message -->
         <div id="bookingMsg" class="msg muted" style="margin-top:12px"></div>
       </div>
     </section>
   </main>
-</main>
 
-
+  <script src="booking.js"></script>
 </body>
 </html>

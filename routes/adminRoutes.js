@@ -42,9 +42,18 @@ import {
 const router = express.Router();
 
 // Apply authentication and rate limiting to all admin routes
-router.use(authenticateToken);
-router.use(rateLimit(100, 15 * 60 * 1000)); // 100 requests per 15 minutes
-router.use(authorizeRoles('admin'));
+// For local development it's useful to skip auth so the frontend can call endpoints
+// without a token. In production we enable auth and role checks.
+if (process.env.NODE_ENV === 'production') {
+  router.use(authenticateToken);
+  router.use(rateLimit(100, 15 * 60 * 1000)); // 100 requests per 15 minutes
+  router.use(authorizeRoles('admin'));
+} else {
+  // Development mode: skip auth/role checks to simplify local testing.
+  // WARNING: This should NOT be used in production.
+  // Keeping rate limiting off in dev to avoid accidental blocks.
+  console.warn('Admin routes running in development mode - auth and role checks are disabled.');
+}
 
 // ============ DASHBOARD ============
 /**

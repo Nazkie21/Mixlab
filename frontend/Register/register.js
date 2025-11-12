@@ -3,10 +3,12 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 
   const username = document.getElementById('username').value;
   const email = document.getElementById('email').value;
+  const homeAddress = document.getElementById('home-address') ? document.getElementById('home-address').value : '';
   const password = document.getElementById('password').value;
   const confirmPassword = document.getElementById('confirm-password').value;
+  const contact_number = document.getElementById('contact_number').value;
 
-  const data = { username, email, password, confirmPassword };
+  const data = { username, name, contact_number,email, password, confirmPassword, homeAddress };
 
   try {
     const res = await fetch('http://localhost:3000/api/auth/register', {
